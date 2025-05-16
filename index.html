@@ -5,11 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>buhamad.plates</title>
 
-  <!-- Load local font OPTIAlternateGothic-TwoAg -->
+  <!-- Load local fonts -->
   <style>
     @font-face {
       font-family: 'OPTIAlternateGothic-TwoAg';
       src: url('OPTIAlternateGothic-TwoAg.otf') format('opentype');
+    }
+
+    @font-face {
+      font-family: 'dubaiplatenumber';
+      src: url('dubaiplatenumber.otf') format('opentype');
     }
 
     body {
@@ -134,18 +139,18 @@
     .overlay-number {
       top: 125px;
       left: 135px;
-	  letter-spacing: -2px;
+      letter-spacing: -1px;
       font-size: 60px;
       font-weight: lighter;
-	  text-shadow: -2px -2px 1px rgba(255, 255, 255, 0.6),
+      font-family: 'dubaiplatenumber';
+      text-shadow: -2px -2px 1px rgba(255, 255, 255, 0.6),
                    2px 2px 2px rgba(0, 0, 0, 0.4);
-      
     }
 
     .overlay-aed {
       top: 215px;
       left: 130px;
-	  letter-spacing: -1px;
+      letter-spacing: -1px;
       font-size: 30px;
       color: red;
       font-weight: lighter;
