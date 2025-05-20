@@ -187,19 +187,6 @@
     .close-btn:hover, .download-btn:hover {
       background-color: #0056b3;
     }
-
-    /* Hidden container for high-res rendering */
-    #download-container {
-      position: absolute;
-      width: 1600px;
-      height: 2200px;
-      left: -99999px;
-      top: -99999px;
-      background: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
   </style>
 </head>
 <body>
@@ -246,9 +233,6 @@
   <button class="download-btn" onclick="downloadPopup()">Download Image</button>
   <button class="close-btn" onclick="closePopup()">Close</button>
 </div>
-
-<!-- Hidden container for high-res rendering -->
-<div id="download-container"></div>
 
 <!-- html2canvas CDN -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -299,28 +283,29 @@
   }
 
   function downloadPopup() {
-    const original = document.getElementById('capture-area');
-    const clone = original.cloneNode(true);
+    const captureArea = document.getElementById('capture-area');
 
-    // Resize clone for 1600x2200 container
-    clone.style.transform = "scale(4.57)";
-    clone.style.transformOrigin = "top left";
+    const originalWidth = captureArea.offsetWidth;
+    const originalHeight = captureArea.offsetHeight;
 
-    const container = document.getElementById('download-container');
-    container.innerHTML = '';
-    container.appendChild(clone);
+    captureArea.style.width = originalWidth + 'px';
+    captureArea.style.height = originalHeight + 'px';
 
-    html2canvas(container, {
-      width: 1600,
-      height: 2200,
-      backgroundColor: null,
+    html2canvas(captureArea, {
       useCORS: true,
-      allowTaint: true
+      allowTaint: true,
+      backgroundColor: null,
+      scale: 2,
+      windowWidth: document.body.scrollWidth,
+      windowHeight: document.body.scrollHeight
     }).then(canvas => {
       const link = document.createElement('a');
       link.download = 'popup-image.png';
       link.href = canvas.toDataURL();
       link.click();
+
+      captureArea.style.width = '';
+      captureArea.style.height = '';
     });
   }
 </script>
