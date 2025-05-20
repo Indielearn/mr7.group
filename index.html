@@ -83,6 +83,10 @@
       background-color: rgba(0, 0, 0, 0.6);
       justify-content: center;
       align-items: center;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     .modal-content {
@@ -156,9 +160,10 @@
       font-weight: lighter;
     }
 
-    .close-btn {
+    .close-btn, .download-btn {
       width: 90%;
-      margin: 20px auto 0;
+      max-width: 350px;
+      margin: 0 auto;
       padding: 10px;
       background-color: #00003d;
       color: white;
@@ -171,7 +176,7 @@
       text-align: center;
     }
 
-    .close-btn:hover {
+    .close-btn:hover, .download-btn:hover {
       background-color: #0056b3;
     }
   </style>
@@ -205,16 +210,21 @@
 </div>
 
 <div id="modal" class="modal">
-  <div class="modal-content">
+  <div class="modal-content" id="capture-area">
     <img id="popup-image" src="" alt="Popup Image">
     <div class="overlay-text overlay-contact" id="overlay-contact"></div>
     <div class="overlay-text overlay-emirate" id="overlay-emirate"></div>
     <div class="overlay-text overlay-code" id="overlay-code"></div>
     <div class="overlay-text overlay-number" id="overlay-number"></div>
     <div class="overlay-text overlay-aed" id="overlay-aed"></div>
-    <button class="close-btn" onclick="closePopup()">Close</button>
   </div>
+
+  <button class="download-btn" onclick="downloadPopup()">Download Image</button>
+  <button class="close-btn" onclick="closePopup()">Close</button>
 </div>
+
+<!-- html2canvas CDN -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
   function handleFormSubmit() {
@@ -258,6 +268,20 @@
 
   function closePopup() {
     document.getElementById('modal').style.display = 'none';
+  }
+
+  function downloadPopup() {
+    const captureArea = document.getElementById('capture-area');
+    html2canvas(captureArea, {
+      backgroundColor: null,
+      useCORS: true,
+      scale: 2
+    }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'popup-image.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
   }
 </script>
 
