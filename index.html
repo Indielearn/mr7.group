@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>buhamad.plates</title>
 
-  <!-- Load local fonts -->
   <style>
     @font-face {
       font-family: 'OPTIAlternateGothic-TwoAg';
@@ -234,7 +233,6 @@
   <button class="close-btn" onclick="closePopup()">Close</button>
 </div>
 
-<!-- html2canvas CDN -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
@@ -284,28 +282,29 @@
 
   function downloadPopup() {
     const captureArea = document.getElementById('capture-area');
+    const clone = captureArea.cloneNode(true);
+    const wrapper = document.createElement('div');
 
-    const originalWidth = captureArea.offsetWidth;
-    const originalHeight = captureArea.offsetHeight;
+    wrapper.style.width = '1600px';
+    wrapper.style.height = '2200px';
+    wrapper.style.display = 'flex';
+    wrapper.style.justifyContent = 'center';
+    wrapper.style.alignItems = 'center';
+    wrapper.style.background = 'white';
+    wrapper.appendChild(clone);
+    document.body.appendChild(wrapper);
 
-    captureArea.style.width = originalWidth + 'px';
-    captureArea.style.height = originalHeight + 'px';
-
-    html2canvas(captureArea, {
+    html2canvas(wrapper, {
       useCORS: true,
       allowTaint: true,
       backgroundColor: null,
-      scale: 2,
-      windowWidth: document.body.scrollWidth,
-      windowHeight: document.body.scrollHeight
+      scale: 1
     }).then(canvas => {
       const link = document.createElement('a');
       link.download = 'popup-image.png';
       link.href = canvas.toDataURL();
       link.click();
-
-      captureArea.style.width = '';
-      captureArea.style.height = '';
+      document.body.removeChild(wrapper);
     });
   }
 </script>
