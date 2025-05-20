@@ -114,13 +114,21 @@
 
     .overlay-contact {
       top: 273px;
-      left: 119px;
+      left: 95px;
       letter-spacing: -2px;
       font-size: 29px;
       color: black;
       font-weight: lighter;
       -webkit-text-stroke: 2px white;
       paint-order: stroke fill;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .overlay-contact img {
+      width: 22px;
+      height: 22px;
     }
 
     .overlay-emirate {
@@ -212,7 +220,10 @@
 <div id="modal" class="modal">
   <div class="modal-content" id="capture-area">
     <img id="popup-image" src="" alt="Popup Image">
-    <div class="overlay-text overlay-contact" id="overlay-contact"></div>
+    <div class="overlay-text overlay-contact" id="overlay-contact">
+      <img src="whatsapp-logo.png" alt="WhatsApp Logo">
+      <span id="contact-text"></span>
+    </div>
     <div class="overlay-text overlay-emirate" id="overlay-emirate"></div>
     <div class="overlay-text overlay-code" id="overlay-code"></div>
     <div class="overlay-text overlay-number" id="overlay-number"></div>
@@ -236,6 +247,7 @@
 
     const popupImage = document.getElementById('popup-image');
     const overlayContact = document.getElementById('overlay-contact');
+    const contactText = document.getElementById('contact-text');
     const overlayEmirate = document.getElementById('overlay-emirate');
     const overlayCode = document.getElementById('overlay-code');
     const overlayNumber = document.getElementById('overlay-number');
@@ -250,13 +262,13 @@
       overlayAed.style.display = 'none';
     } else {
       popupImage.src = 'bg1.png';
-      overlayContact.innerText = contact;
+      contactText.innerText = contact;
       overlayEmirate.innerText = emirate;
       overlayCode.innerText = code;
       overlayNumber.innerText = number;
       overlayAed.innerText = aed;
 
-      overlayContact.style.display = 'block';
+      overlayContact.style.display = 'flex';
       overlayEmirate.style.display = 'block';
       overlayCode.style.display = 'block';
       overlayNumber.style.display = 'block';
@@ -273,7 +285,6 @@
   function downloadPopup() {
     const captureArea = document.getElementById('capture-area');
 
-    // Fix for accurate positioning in downloaded image
     const originalWidth = captureArea.offsetWidth;
     const originalHeight = captureArea.offsetHeight;
 
