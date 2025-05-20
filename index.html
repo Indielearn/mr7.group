@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>buhamad.plates</title>
 
+  <!-- Load local fonts -->
   <style>
     @font-face {
       font-family: 'OPTIAlternateGothic-TwoAg';
@@ -233,6 +234,7 @@
   <button class="close-btn" onclick="closePopup()">Close</button>
 </div>
 
+<!-- html2canvas CDN -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
@@ -282,29 +284,33 @@
 
   function downloadPopup() {
     const captureArea = document.getElementById('capture-area');
-    const clone = captureArea.cloneNode(true);
-    const wrapper = document.createElement('div');
+    const scaleWidth = 1600;
+    const scaleHeight = 2200;
 
-    wrapper.style.width = '1600px';
-    wrapper.style.height = '2200px';
-    wrapper.style.display = 'flex';
-    wrapper.style.justifyContent = 'center';
-    wrapper.style.alignItems = 'center';
-    wrapper.style.background = 'white';
-    wrapper.appendChild(clone);
-    document.body.appendChild(wrapper);
-
-    html2canvas(wrapper, {
+    html2canvas(captureArea, {
+      width: scaleWidth,
+      height: scaleHeight,
+      scale: 1,
       useCORS: true,
-      allowTaint: true,
       backgroundColor: null,
-      scale: 1
     }).then(canvas => {
+      // Create a new canvas with desired size
+      const finalCanvas = document.createElement('canvas');
+      finalCanvas.width = scaleWidth;
+      finalCanvas.height = scaleHeight;
+      const ctx = finalCanvas.getContext('2d');
+
+      // Center the captured canvas inside the larger canvas
+      const x = (scaleWidth - canvas.width) / 2;
+      const y = (scaleHeight - canvas.height) / 2;
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, scaleWidth, scaleHeight);
+      ctx.drawImage(canvas, x, y);
+
       const link = document.createElement('a');
       link.download = 'popup-image.png';
-      link.href = canvas.toDataURL();
+      link.href = finalCanvas.toDataURL();
       link.click();
-      document.body.removeChild(wrapper);
     });
   }
 </script>
